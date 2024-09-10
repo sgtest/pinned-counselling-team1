@@ -1,7 +1,9 @@
 package xyz.sangdam.member.constants;
 
 public enum UserType {
-    STUDENT,
+    STUDENT, // 학생
+    PROFESSOR, // 교수
+    COUNSELOR, // 상담사
     EMPLOYEE,
-    PROFESSOR
+    ADMIN // 관리자
 }
