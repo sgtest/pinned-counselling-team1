@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: psychologicalTest-service
+  cloud:
+    config:
+      uri: ${configServerUrl}
