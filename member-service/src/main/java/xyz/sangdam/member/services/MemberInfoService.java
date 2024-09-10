@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,10 +14,14 @@ import org.springframework.util.StringUtils;
 import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Pagination;
 import xyz.sangdam.member.MemberInfo;
+import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.MemberSearch;
 import xyz.sangdam.member.entities.Member;
 import xyz.sangdam.member.entities.QMember;
+import xyz.sangdam.member.repositories.EmployeeRepository;
 import xyz.sangdam.member.repositories.MemberRepository;
+import xyz.sangdam.member.repositories.ProfessorRepository;
+import xyz.sangdam.member.repositories.StudentRepository;
 
 import java.util.List;
 
@@ -25,6 +30,10 @@ import java.util.List;
 public class MemberInfoService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final StudentRepository studentRepository;
+    private final EmployeeRepository employeeRepository;
+    private final ProfessorRepository professorRepository;
+
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
 
@@ -32,14 +41,26 @@ public class MemberInfoService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Member member = memberRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        UserType userType = member.getUserSe();
+        switch(userType) {
+            case EMPLOYEE: // 교직원
+                member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
 
+                break;
+            case PROFESSOR: // 교수
+                member = professorRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
+                break;
+            default: // 학생
+                member = studentRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
+        }
 
+        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(userType.name()));
 
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .password(member.getPassword())
+                .authorities(authorities)
                 .member(member)
-                //.authorities(authorities)
                 .build();
     }
 

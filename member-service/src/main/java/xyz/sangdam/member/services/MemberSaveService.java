@@ -65,8 +65,31 @@ public class MemberSaveService {
         if (member instanceof Employee employee) { // 교직원
             employee.setDeptInfo(deptInfo);
             employee.setEmpNo(form.getEmpNo());
+            employee.setMobile(form.getMobile());
+            employee.setGid(form.getGid());
+            employee.setZonecode(form.getZonecode());
+            employee.setAddress(form.getAddress());
+            employee.setAddresssub(form.getAddresssub());
+            employee.setBirth(form.getBirth());
+            employee.setGender(Gender.valueOf(form.getGender()));
+            employee.setStatus(Status.valueOf(form.getStatus()));
+            employeeRepository.saveAndFlush(employee);
 
         } else if (member instanceof Professor professor) {  // 교수
+            professor.setDeptInfo(deptInfo);
+            professor.setEmpNo(form.getEmpNo());
+            professor.setMobile(form.getMobile());
+            professor.setGid(form.getGid());
+            professor.setZonecode(form.getZonecode());
+            professor.setAddress(form.getAddress());
+            professor.setAddresssub(form.getAddresssub());
+            professor.setBirth(form.getBirth());
+            professor.setGender(Gender.valueOf(form.getGender()));
+            professor.setStatus(Status.valueOf(form.getStatus()));
+            professor.setStartDate(form.getStateDate());
+            professor.setEndDate(form.getEndDate());
+            professor.setNowState(Status.valueOf(form.getNowState()));
+            professorRepository.saveAndFlush(professor);
 
         } else if (member instanceof Student student){ // 학생
             student.setDeptInfo(deptInfo);
@@ -80,6 +103,7 @@ public class MemberSaveService {
             student.setBirth(form.getBirth());
             student.setGender(Gender.valueOf(form.getGender()));
             student.setStatus(Status.valueOf(form.getStatus()));
+            studentRepository.saveAndFlush(student);
         }
 
 
