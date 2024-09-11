@@ -13,5 +13,5 @@ public class PersonalCounseling extends Counseling {
 
     @Enumerated(EnumType.STRING)
     @Column(length=20)
-    private Category counselingType;
+    private Category category;
 }

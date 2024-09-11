@@ -2,6 +2,7 @@ package xyz.sangdam.counseling.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import xyz.sangdam.counseling.constants.CounselingType;
 import xyz.sangdam.global.entities.BaseMemberEntity;
 
 import java.time.LocalDate;
@@ -27,4 +28,8 @@ public class Counseling extends BaseMemberEntity {
 
     private LocalDate reservationSdate; // 신청 시작일시
     private LocalDate reservationEdate; // 신청 종료일시
+
+    @Enumerated(EnumType.STRING)
+    @Column(length=20, nullable = false)
+    private CounselingType counselingType;
 }
