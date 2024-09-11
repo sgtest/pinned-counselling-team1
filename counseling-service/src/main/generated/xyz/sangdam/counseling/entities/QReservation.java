@@ -34,10 +34,10 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final StringPath email = createString("email");
 
-    public final StringPath memo = createString("memo");
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    public final StringPath record = createString("record");
 
     public final DateTimePath<java.time.LocalDateTime> reservationDate = createDateTime("reservationDate", java.time.LocalDateTime.class);
 

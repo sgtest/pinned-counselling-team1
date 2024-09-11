@@ -26,7 +26,7 @@ public class QGroupSchedule extends EntityPathBase<GroupSchedule> {
 
     public final DatePath<java.time.LocalDate> counselingDate = createDate("counselingDate", java.time.LocalDate.class);
 
-    public final StringPath memo = createString("memo");
+    public final StringPath record = createString("record");
 
     public final NumberPath<Long> scheduleNo = createNumber("scheduleNo", Long.class);
 

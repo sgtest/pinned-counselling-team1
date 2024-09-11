@@ -18,5 +18,5 @@ public class GroupSchedule {
     private LocalDate counselingDate; // 상담일
 
     @Lob
-    private String memo; // 상담 일지(그룹 학생들)
+    private String record; // 상담 일지(집단상담별)
 }
