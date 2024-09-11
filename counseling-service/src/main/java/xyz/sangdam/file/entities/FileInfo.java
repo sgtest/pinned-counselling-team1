@@ -1,4 +1,4 @@
-package org.choongang.file.entities;
+package xyz.sangdam.file.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
