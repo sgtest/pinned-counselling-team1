@@ -103,9 +103,7 @@ public class MemberController {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
-        saveService.save(form);
-
-        Member member = memberUtil.getMember();
+        Member member = saveService.save(form);
 
         return new JSONData(member);
     }

@@ -1,6 +1,7 @@
 package xyz.sangdam.member.controllers;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -10,6 +11,7 @@ import xyz.sangdam.member.constants.Status;
 import java.time.LocalDate;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestUpdate {
 
     private String email;
@@ -28,7 +30,7 @@ public class RequestUpdate {
 
     private String zonecode; // 우편번호
     private String address; // 주소
-    private String addresssub; // 상세 주소
+    private String addressSub; // 상세 주소
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일

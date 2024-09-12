@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import xyz.sangdam.global.Utils;
 import xyz.sangdam.member.MemberUtil;
 import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
@@ -28,9 +29,12 @@ public class MemberSaveService {
     private final MemberRepository memberRepository;
     private final EmployeeRepository employeeRepository;
     private final StudentRepository studentRepository;
+    private final MemberInfoService infoService;
 
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
+    private final Utils utils;
+
     /**
      * 회원 가입 처리
      *
@@ -88,7 +92,7 @@ public class MemberSaveService {
      *
      * @param form
      */
-    public void save(RequestUpdate form) {
+    public Member save(RequestUpdate form) {
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
@@ -110,7 +114,7 @@ public class MemberSaveService {
         member.setMobile(mobile);
         member.setZonecode(form.getZonecode());
         member.setAddress(form.getAddress());
-        member.setAddresssub(form.getAddresssub());
+        member.setAddresssub(form.getAddressSub());
         member.setBirth(form.getBirth());
 
         String password = form.getPassword();
@@ -147,5 +151,7 @@ public class MemberSaveService {
         } else if (member instanceof Student student) {
             studentRepository.saveAndFlush(student);
         }
+
+        return member;
     }
 }
