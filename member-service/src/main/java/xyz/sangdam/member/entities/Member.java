@@ -2,6 +2,7 @@ package xyz.sangdam.member.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import xyz.sangdam.file.entities.FileInfo;
 import xyz.sangdam.global.entities.BaseEntity;
 import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
@@ -63,6 +64,8 @@ public class Member extends BaseEntity {
     @Column(length=10)
     private String deptNo; // 부서번호
 
+    @Transient
+    private FileInfo profileImage;
 
     /*
     private int loginErrCnt; // 로그인 오류 횟수

@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import xyz.sangdam.file.entities.FileInfo;
+import xyz.sangdam.file.services.FileInfoService;
 import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Pagination;
 import xyz.sangdam.member.MemberInfo;
@@ -32,6 +34,7 @@ public class MemberInfoService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final StudentRepository studentRepository;
     private final EmployeeRepository employeeRepository;
+    private final FileInfoService fileInfoService;
 
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
@@ -59,6 +62,8 @@ public class MemberInfoService implements UserDetailsService {
         }
 
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(userType.name()));
+
+        addInfo(member);
 
         return MemberInfo.builder()
                 .email(member.getEmail())
@@ -135,5 +140,12 @@ public class MemberInfoService implements UserDetailsService {
         Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
 
         return new ListData<>(items, pagination);
+    }
+
+    public void addInfo(Member member) {
+        List<FileInfo> files = fileInfoService.getList(member.getGid());
+        if (files != null && !files.isEmpty()) {
+            member.setProfileImage(files.get(0));
+        }
     }
 }
