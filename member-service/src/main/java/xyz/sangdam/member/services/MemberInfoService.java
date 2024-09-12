@@ -1,7 +1,7 @@
 package xyz.sangdam.member.services;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -105,26 +105,32 @@ public class MemberInfoService implements UserDetailsService {
              */
             sopt = sopt.trim();
             skey = skey.trim();
-            BooleanExpression condition = null;
+            StringExpression expression = null;
 
             if (sopt.equals("ALL")) { // 통합 검색
-                condition = member.email.contains(skey).or(member.userName.contains(skey)).or(member.userType.stringValue().contains(skey));
+                expression = member.email.concat(member.userName)
+                        .concat(member.mobile)
+                        .concat(member.deptNm)
+                        .concat(member.deptNo);
+
 
             } else if (sopt.equals("email")) { // 이메일로 검색
-                condition = member.email.contains(skey);
+                expression = member.email;
 
             }
             else if (sopt.equals("userName")) { // 회원명, 지도교수명
-                condition = member.userName.contains(skey);
+                expression = member.userName;
 
-            } else if (sopt.equals("userType")) { // 권한으로 검색
-                condition = member.userType.stringValue().contains(skey);
             }
 
-            if (condition != null) andBuilder.and(condition);
+            if (expression != null) andBuilder.and(expression.contains(skey));
         }
 
-
+        List<String> userType = search.getUserType();
+        if (userType != null && !userType.isEmpty()) {
+            List<UserType> userTypes = userType.stream().map(UserType::valueOf).toList();
+            andBuilder.and(member.userType.in(userTypes));
+        }
 
         /* 검색 처리 E */
 
