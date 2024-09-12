@@ -19,6 +19,8 @@ public class QTestResult extends EntityPathBase<TestResult> {
 
     public static final QTestResult testResult = new QTestResult("testResult");
 
+    public final StringPath questionAndAnswer = createString("questionAndAnswer");
+
     public final NumberPath<Long> resultId = createNumber("resultId", Long.class);
 
     public final NumberPath<Long> score = createNumber("score", Long.class);

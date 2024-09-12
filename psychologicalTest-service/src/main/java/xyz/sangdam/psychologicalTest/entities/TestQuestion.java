@@ -8,7 +8,6 @@ import xyz.sangdam.psychologicalTest.constants.PsychologicalTestType;
 @Entity
 public class TestQuestion {
     @Id
-    @Column(length = 10)
     private Long questionId; // 문항 번호
 
     @Lob

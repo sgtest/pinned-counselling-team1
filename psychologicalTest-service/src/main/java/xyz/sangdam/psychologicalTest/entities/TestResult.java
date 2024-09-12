@@ -27,5 +27,5 @@ public class TestResult {
     private PsychologicalTestType testType;
 
     @Lob
-    private String resultDescription; // 결과에 대한 설명
+    private String questionAndAnswer; // 질문번호+응답번호(객관식)을 JSON으로 받음
 }
