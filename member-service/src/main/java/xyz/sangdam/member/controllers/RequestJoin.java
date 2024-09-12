@@ -8,8 +8,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import xyz.sangdam.member.constants.Gender;
-import xyz.sangdam.member.constants.Status;
-import xyz.sangdam.member.constants.UserType;
 
 import java.time.LocalDate;
 import java.util.UUID;

@@ -6,23 +6,20 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
-import xyz.sangdam.member.constants.UserType;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 public class RequestUpdate {
 
     private String email;
 
-    @NotBlank @Size(min=8)
+    @Size(min=8)
     private String password;
 
-    @NotBlank
     private String confirmPassword;
 
-    private String userSe = UserType.STUDENT.name(); // 사용자 구분 - STUDENT가 기본값
+    private String userType;
 
     @NotBlank
     private String userName;

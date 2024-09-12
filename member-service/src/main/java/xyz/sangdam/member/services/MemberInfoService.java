@@ -1,6 +1,7 @@
 package xyz.sangdam.member.services;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -35,21 +36,26 @@ public class MemberInfoService implements UserDetailsService {
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
 
+    /**
+     * 사용자 정보를 가져와 인증처리하는 메서드
+     * - 로그인 시 호출되는 메서드
+     *
+     * username으로 사용자를 찾고, 그 사용자의 UserType에 따라 추가 정보를 Employee나 Student 리포지토리에서 조회
+     * 사용자의 역할(권한)을 UserType을 기준으로 부여한 후, 이를 기반으로 인증 정보를 담은 MemberInfo 객체를 반환
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Member member = memberRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
         UserType userType = member.getUserType();
-        switch(userType) {
-            case COUNSELOR: // 상담사
-                member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
-
-                break;
-            case PROFESSOR: // 교수
-                member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
-                break;
-            default: // 학생
-                member = studentRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
+        if (userType == UserType.COUNSELOR || userType == UserType.ADMIN || userType == UserType.PROFESSOR) {
+            member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
+        } else if (userType == UserType.STUDENT) {
+            member = studentRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
         }
 
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(userType.name()));
@@ -76,21 +82,44 @@ public class MemberInfoService implements UserDetailsService {
         int offset = (page - 1) * limit;
 
         /* 검색 처리 S */
-        BooleanBuilder andBuilder = new BooleanBuilder();
         QMember member = QMember.member;
+        BooleanBuilder andBuilder = new BooleanBuilder();
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
-        sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
-        if (StringUtils.hasText(skey)) {
-            skey = skey.trim();
-            if (sopt.equals("ALL")) { // 통합 검색
 
-            } else if (sopt.equals("name")) { // 회원명, 지도교수명
+        sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL"; // 통합검색이 기본
+
+
+        if (StringUtils.hasText(skey)) {
+            /**
+             * sopt 검색옵션
+             * ALL - (통합검색) - email, userName
+             * email - 이메일로 검색
+             * userName - 닉네임으로 검색
+             */
+            sopt = sopt.trim();
+            skey = skey.trim();
+            BooleanExpression condition = null;
+
+            if (sopt.equals("ALL")) { // 통합 검색
+                condition = member.email.contains(skey).or(member.userName.contains(skey)).or(member.userType.stringValue().contains(skey));
+
+            } else if (sopt.equals("email")) { // 이메일로 검색
+                condition = member.email.contains(skey);
 
             }
+            else if (sopt.equals("userName")) { // 회원명, 지도교수명
+                condition = member.userName.contains(skey);
 
+            } else if (sopt.equals("userType")) { // 권한으로 검색
+                condition = member.userType.stringValue().contains(skey);
+            }
+
+            if (condition != null) andBuilder.and(condition);
         }
+
+
 
         /* 검색 처리 E */
 
