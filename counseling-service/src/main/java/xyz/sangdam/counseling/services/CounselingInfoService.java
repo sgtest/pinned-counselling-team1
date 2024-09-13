@@ -6,8 +6,11 @@ import xyz.sangdam.counseling.controllers.CounselingSearch;
 import xyz.sangdam.counseling.entities.Counseling;
 import xyz.sangdam.counseling.exceptions.CounselingNotFoundException;
 import xyz.sangdam.counseling.repositories.CounselingRepository;
+import xyz.sangdam.file.entities.FileInfo;
 import xyz.sangdam.file.services.FileInfoService;
 import xyz.sangdam.global.ListData;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,11 @@ public class CounselingInfoService {
     }
 
     private void addInfo(Counseling item) {
-
+        try {
+            List<FileInfo> editorImages = fileInfoService.getList(item.getGid(), "editor");
+            item.setEditorImages(editorImages);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
