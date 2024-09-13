@@ -2,18 +2,23 @@ package xyz.sangdam.counseling.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import xyz.sangdam.counseling.entities.Counseling;
 import xyz.sangdam.counseling.repositories.CounselingRepository;
-import xyz.sangdam.file.services.FileDeleteService;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class CounselingDeleteService {
 
-    private final CounselingRepository groupRepository;
-    private final FileDeleteService fileDeleteService;
+    private final CounselingRepository repository;
+    private final CounselingInfoService infoService;
 
     public void delete(Long cNo) {
+        Counseling data = infoService.get(cNo);
+        data.setDeletedAt(LocalDateTime.now());
 
-        // fileDeleteService.delete(gid);
+        repository.saveAndFlush(data);
+
     }
 }
