@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import xyz.sangdam.global.entities.BaseEntity;
 import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.UserType;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Member {
+public class Member extends BaseEntity {
     private Long seq;
     private String email; // 로그인 ID
     private String password; // 비밀번호
