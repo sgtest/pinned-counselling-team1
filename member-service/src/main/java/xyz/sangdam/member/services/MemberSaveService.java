@@ -1,11 +1,13 @@
 package xyz.sangdam.member.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import xyz.sangdam.global.Utils;
+import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.MemberUtil;
 import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
@@ -33,8 +35,6 @@ public class MemberSaveService {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
-    private final Utils utils;
-
     /**
      * 회원 가입 처리
      *
@@ -151,6 +151,9 @@ public class MemberSaveService {
         } else if (member instanceof Student student) {
             studentRepository.saveAndFlush(student);
         }
+
+        MemberInfo memberInfo = (MemberInfo) infoService.loadUserByUsername(email);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         return member;
     }

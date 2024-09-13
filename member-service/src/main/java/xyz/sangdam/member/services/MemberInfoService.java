@@ -12,19 +12,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import xyz.sangdam.file.entities.FileInfo;
-import xyz.sangdam.file.services.FileInfoService;
 import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Pagination;
 import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.MemberSearch;
+import xyz.sangdam.member.entities.Employee;
 import xyz.sangdam.member.entities.Member;
+import xyz.sangdam.member.entities.QEmployee;
 import xyz.sangdam.member.entities.QMember;
 import xyz.sangdam.member.repositories.EmployeeRepository;
 import xyz.sangdam.member.repositories.MemberRepository;
 import xyz.sangdam.member.repositories.StudentRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,7 +35,6 @@ public class MemberInfoService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final StudentRepository studentRepository;
     private final EmployeeRepository employeeRepository;
-    private final FileInfoService fileInfoService;
 
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
@@ -102,6 +102,9 @@ public class MemberInfoService implements UserDetailsService {
              * ALL - (통합검색) - email, userName
              * email - 이메일로 검색
              * userName - 닉네임으로 검색
+             * mobile - 핸드폰번호로 검색
+             * deptNm - 부서명 + 학과명으로 검색
+             * deptNo - 부서번호로 검색
              */
             sopt = sopt.trim();
             skey = skey.trim();
@@ -118,9 +121,17 @@ public class MemberInfoService implements UserDetailsService {
                 expression = member.email;
 
             }
-            else if (sopt.equals("userName")) { // 회원명, 지도교수명
+            else if (sopt.equals("userName")) { // 회원명로 검색
                 expression = member.userName;
 
+            } else if (sopt.equals("mobile")) { // 핸드폰번호로 검색
+                expression = member.mobile;
+
+            } else if (sopt.equals("deptNm")) { // 부서명 + 학과명으로 검색
+                expression = member.deptNm;
+
+            } else if (sopt.equals("deptNo")) { // 부서번호로 검색
+                expression = member.deptNo;
             }
 
             if (expression != null) andBuilder.and(expression.contains(skey));
@@ -135,7 +146,6 @@ public class MemberInfoService implements UserDetailsService {
         /* 검색 처리 E */
 
         List<Member> items = queryFactory.selectFrom(member)
-                .fetchJoin()
                 .where(andBuilder)
                 .offset(offset)
                 .limit(limit)
@@ -149,9 +159,27 @@ public class MemberInfoService implements UserDetailsService {
     }
 
     public void addInfo(Member member) {
+        /*
         List<FileInfo> files = fileInfoService.getList(member.getGid());
         if (files != null && !files.isEmpty()) {
             member.setProfileImage(files.get(0));
         }
+         */
+    }
+
+    public Employee getCounselor() {
+        BooleanBuilder builder = new BooleanBuilder();
+        QEmployee employee = QEmployee.employee;
+        builder.and(employee.userType.eq(UserType.COUNSELOR));
+
+        List<Employee> employees = (List<Employee>)employeeRepository.findAll(builder);
+
+        if (employees != null && !employees.isEmpty()) {
+            Collections.shuffle(employees);
+            return employees.get(0);
+        }
+
+
+        return null;
     }
 }

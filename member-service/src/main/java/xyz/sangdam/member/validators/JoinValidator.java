@@ -1,16 +1,16 @@
 package xyz.sangdam.member.validators;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 import xyz.sangdam.global.validators.MobileValidator;
 import xyz.sangdam.global.validators.PasswordValidator;
 import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.RequestJoin;
 import xyz.sangdam.member.repositories.MemberRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 @Component
 @RequiredArgsConstructor

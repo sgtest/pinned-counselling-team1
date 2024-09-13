@@ -67,6 +67,7 @@ public class Member extends BaseEntity {
     @Transient
     private FileInfo profileImage;
 
+
     /*
     private int loginErrCnt; // 로그인 오류 횟수
 
