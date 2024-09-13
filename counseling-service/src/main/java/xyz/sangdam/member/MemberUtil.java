@@ -6,9 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import xyz.sangdam.member.constants.UserType;
-import xyz.sangdam.member.entities.Employee;
 import xyz.sangdam.member.entities.Member;
-import xyz.sangdam.member.entities.Student;
 
 @Component
 @RequiredArgsConstructor

@@ -42,8 +42,6 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final StringPath email = createString("email");
 
-    public final xyz.sangdam.member.entities.QMember member;
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
@@ -82,7 +80,6 @@ public class QReservation extends EntityPathBase<Reservation> {
     public QReservation(Class<? extends Reservation> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.counseling = inits.isInitialized("counseling") ? new QCounseling(forProperty("counseling")) : null;
-        this.member = inits.isInitialized("member") ? new xyz.sangdam.member.entities.QMember(forProperty("member")) : null;
     }
 
 }

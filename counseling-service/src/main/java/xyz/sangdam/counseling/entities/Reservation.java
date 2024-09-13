@@ -2,12 +2,14 @@ package xyz.sangdam.counseling.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import xyz.sangdam.counseling.constants.CounselingType;
 import xyz.sangdam.counseling.constants.PersonalCategory;
 import xyz.sangdam.counseling.constants.Status;
 import xyz.sangdam.global.entities.BaseEntity;
-import xyz.sangdam.member.entities.Member;
 
 import java.time.LocalDateTime;
 
@@ -24,9 +26,6 @@ public class Reservation extends BaseEntity {
     @Column(length=20)
     @Enumerated(EnumType.STRING)
     private Status status; // 진행상태
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Member member;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="cNo")
