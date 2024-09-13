@@ -42,13 +42,13 @@ public class CounselingAdminController {
      * 		GET /admin/reservation/{reservationNo}
      * 				- Counseling -> CounselingType : 개인상담/집단 상담
      */
-    @Operation(summary = "개인/집담 상담 프로그램 등록", description = "counselingType - PERSON : 개인 상담 프로그램, GROUP : 집단 상담 프로그램", method="POST")
+    @Operation(summary = "개인/집단 상담 프로그램 등록", description = "counselingType - PERSONAL : 개인 상담 프로그램, GROUP : 집단 상담 프로그램")
     @PostMapping("/counseling")
     public ResponseEntity<Void> registerCounseling() {
         return save();
     }
 
-    @Operation(summary = "개인/집담 상담 프로그램 수정", method="PATCH")
+    @Operation(summary = "개인/집담 상담 프로그램 수정", method = "PATCH")
     @PatchMapping("/counseling/{counselingNo}")
     public ResponseEntity<Void> updateCounseling(@PathVariable("counselingNo") Long cNo) {
 
@@ -62,7 +62,7 @@ public class CounselingAdminController {
         return ResponseEntity.status(status).build();
     }
 
-    @Operation(summary = "개인/집담 상담 프로그램 삭제", method="DELETE")
+    @Operation(summary = "개인/집담 상담 프로그램 삭제", method = "DELETE")
     @DeleteMapping("/counseling/{counselingNo}")
     public void deleteCounseling(@PathVariable("counselingNo") Long cNo) {
 

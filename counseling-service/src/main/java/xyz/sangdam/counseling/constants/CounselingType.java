@@ -1,6 +1,6 @@
 package xyz.sangdam.counseling.constants;
 
 public enum CounselingType {
-    PERSONAL,
-    GROUP
+    PERSONAL, // 개인상담
+    GROUP // 집단상담
 }

@@ -24,7 +24,15 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final xyz.sangdam.global.entities.QBaseEntity _super = new xyz.sangdam.global.entities.QBaseEntity(this);
 
+    public final EnumPath<xyz.sangdam.counseling.constants.PersonalCategory> category = createEnum("category", xyz.sangdam.counseling.constants.PersonalCategory.class);
+
     public final QCounseling counseling;
+
+    public final StringPath counselingName = createString("counselingName");
+
+    public final StringPath counselorEmail = createString("counselorEmail");
+
+    public final StringPath counselorName = createString("counselorName");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -34,16 +42,24 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final StringPath email = createString("email");
 
+    public final xyz.sangdam.member.entities.QMember member;
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
+    public final StringPath programNm = createString("programNm");
+
+    public final DateTimePath<java.time.LocalDateTime> rDateTime = createDateTime("rDateTime", java.time.LocalDateTime.class);
+
+    public final StringPath reason = createString("reason");
+
     public final StringPath record = createString("record");
 
-    public final DateTimePath<java.time.LocalDateTime> reservationDate = createDateTime("reservationDate", java.time.LocalDateTime.class);
-
-    public final NumberPath<Long> reservationNo = createNumber("reservationNo", Long.class);
+    public final NumberPath<Long> rNo = createNumber("rNo", Long.class);
 
     public final EnumPath<xyz.sangdam.counseling.constants.Status> status = createEnum("status", xyz.sangdam.counseling.constants.Status.class);
+
+    public final EnumPath<xyz.sangdam.counseling.constants.CounselingType> type = createEnum("type", xyz.sangdam.counseling.constants.CounselingType.class);
 
     public final StringPath userName = createString("userName");
 
@@ -66,6 +82,7 @@ public class QReservation extends EntityPathBase<Reservation> {
     public QReservation(Class<? extends Reservation> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.counseling = inits.isInitialized("counseling") ? new QCounseling(forProperty("counseling")) : null;
+        this.member = inits.isInitialized("member") ? new xyz.sangdam.member.entities.QMember(forProperty("member")) : null;
     }
 
 }
