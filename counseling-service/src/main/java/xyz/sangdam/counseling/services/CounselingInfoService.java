@@ -1,22 +1,33 @@
 package xyz.sangdam.counseling.services;
 
+import com.querydsl.core.BooleanBuilder;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import xyz.sangdam.counseling.controllers.CounselingSearch;
 import xyz.sangdam.counseling.entities.Counseling;
+import xyz.sangdam.counseling.entities.QCounseling;
 import xyz.sangdam.counseling.exceptions.CounselingNotFoundException;
 import xyz.sangdam.counseling.repositories.CounselingRepository;
 import xyz.sangdam.file.entities.FileInfo;
 import xyz.sangdam.file.services.FileInfoService;
 import xyz.sangdam.global.ListData;
+import xyz.sangdam.global.Pagination;
 
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.desc;
 
 @Service
 @RequiredArgsConstructor
 public class CounselingInfoService {
     private final CounselingRepository repository;
     private final FileInfoService fileInfoService;
+    private final HttpServletRequest request;
 
     public Counseling get(Long cNo) {
         Counseling item = repository.findById(cNo).orElseThrow(CounselingNotFoundException::new);
@@ -29,7 +40,32 @@ public class CounselingInfoService {
     }
 
     public ListData<Counseling> getList(CounselingSearch search) {
-        return null;
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 20 : limit;
+
+        /* 검색 처리 S */
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        QCounseling counseling = QCounseling.counseling;
+        String sopt = search.getSopt();
+        String skey = search.getSkey();
+
+
+        /* 검색 처리 E */
+
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
+        Page<Counseling> data = repository.findAll(andBuilder, pageable);
+
+        // (int page, int total, int ranges, int limit, HttpServletRequest request)
+        long total = repository.count(andBuilder);
+        Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+
+        List<Counseling> items = data.getContent();
+        if (items != null && !items.isEmpty()) {
+            items.forEach(this::addInfo);
+        }
+
+        return new ListData<>(items, pagination);
     }
 
     private void addInfo(Counseling item) {
