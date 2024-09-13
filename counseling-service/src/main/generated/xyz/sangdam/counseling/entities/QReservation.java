@@ -47,8 +47,6 @@ public class QReservation extends EntityPathBase<Reservation> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final StringPath programNm = createString("programNm");
-
     public final DateTimePath<java.time.LocalDateTime> rDateTime = createDateTime("rDateTime", java.time.LocalDateTime.class);
 
     public final StringPath reason = createString("reason");

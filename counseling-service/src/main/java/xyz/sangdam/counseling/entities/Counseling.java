@@ -6,15 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import xyz.sangdam.global.entities.BaseMemberEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Counseling {
+public class Counseling extends BaseMemberEntity {
     @Id
     @GeneratedValue
     private Long cNo; // 상담 번호
@@ -33,15 +35,16 @@ public class Counseling {
 
     /* 집단상담 */
     @Column(length=60, nullable = false)
-    private String programNm; // 집단상담 프로그램명
+    private String counselingName; // 집단상담 프로그램명
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationSdate; // 신청기간 시작일시
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationEdate; // 신청기간 종료일시
 
-    private LocalDate counselingDate; // 상담일
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime counselingDate; // 상담일
 
     private int counselingLimit; // 정원
 }

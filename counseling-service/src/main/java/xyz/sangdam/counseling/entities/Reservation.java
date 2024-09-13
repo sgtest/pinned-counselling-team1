@@ -46,7 +46,7 @@ public class Reservation extends BaseEntity {
     private PersonalCategory category; // 개인상담 종류
 
     @Column(length=60, nullable = false)
-    private String counselingName; // 개인상담명
+    private String counselingName; // 개인상담명(학생이름(학번)님 개인상담) + 집단 상담 프로그래명
 
     @Column(length=20, nullable = false)
     private String counselorName; // 상담사명
@@ -56,9 +56,6 @@ public class Reservation extends BaseEntity {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rDateTime; // 예약일시
-
-    @Column(length=60, nullable = false)
-    private String programNm; // 프로그램명
 
     @Lob
     private String reason; // 상담 사유
