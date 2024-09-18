@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QTestQuestion is a Querydsl query type for TestQuestion
+ * QQuestion is a Querydsl query type for Question
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QTestQuestion extends EntityPathBase<TestQuestion> {
+public class QQuestion extends EntityPathBase<Question> {
 
-    private static final long serialVersionUID = 503236900L;
+    private static final long serialVersionUID = 854849650L;
 
-    public static final QTestQuestion testQuestion = new QTestQuestion("testQuestion");
+    public static final QQuestion question = new QQuestion("question");
 
     public final NumberPath<Long> questionId = createNumber("questionId", Long.class);
 
@@ -25,16 +25,16 @@ public class QTestQuestion extends EntityPathBase<TestQuestion> {
 
     public final EnumPath<xyz.sangdam.psychologicalTest.constants.PsychologicalTestType> testType = createEnum("testType", xyz.sangdam.psychologicalTest.constants.PsychologicalTestType.class);
 
-    public QTestQuestion(String variable) {
-        super(TestQuestion.class, forVariable(variable));
+    public QQuestion(String variable) {
+        super(Question.class, forVariable(variable));
     }
 
-    public QTestQuestion(Path<? extends TestQuestion> path) {
+    public QQuestion(Path<? extends Question> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QTestQuestion(PathMetadata metadata) {
-        super(TestQuestion.class, metadata);
+    public QQuestion(PathMetadata metadata) {
+        super(Question.class, metadata);
     }
 
 }

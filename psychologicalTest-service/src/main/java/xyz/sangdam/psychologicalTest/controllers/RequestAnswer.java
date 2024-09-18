@@ -15,5 +15,5 @@ public class RequestAnswer {
     private String testType;
 
     @NotNull
-    private Map<Integer, Integer> answers;
+    private Map<Long, Integer> answers;
 }

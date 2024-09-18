@@ -1,25 +1,37 @@
 package xyz.sangdam.member.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Data;
+import xyz.sangdam.global.entities.BaseEntity;
+import xyz.sangdam.member.constants.Gender;
+import xyz.sangdam.member.constants.Status;
+import xyz.sangdam.member.constants.UserType;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Member {
+@Entity
+@Table(name="USER_INFO")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Member extends BaseEntity {
+    @Id @GeneratedValue
+    private Long seq; // 사용자 번호
 
-    private Long seq;
+    @Column(length=50, unique = true, nullable = false)
+    private String email; // 로그인 ID
 
-    private String gid;
+    @Column(length=200, nullable = false)
+    private String password; // 비밀번호
 
-    private String email;
+    @Enumerated(EnumType.STRING)
+    @Column(length=10, nullable = false)
+    private UserType userType; // 사용자 구분
 
-    private String password;
+    @Column(length=10, nullable = false)
+    private String userName; // 성명
 
-    private String userName;
+    @Column(length=100)
+    private String gid = UUID.randomUUID().toString(); // 파일
 
-    private String mobile;
-
-    private List<Authorities> authorities;
 }
