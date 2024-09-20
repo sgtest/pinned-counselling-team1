@@ -296,7 +296,11 @@ const JoinForm = ({
                 onChange={onChange}
               >
                 {professors && professors.length > 0 ? (
-                  professors.map((professor) => <></>)
+                  professors.map(({ seq, userName, deptNm }) => (
+                    <option key={seq} value={seq}>
+                      {userName}({deptNm})
+                    </option>
+                  ))
                 ) : (
                   <option value="">{t('교수를_선택하세요')}</option>
                 )}
