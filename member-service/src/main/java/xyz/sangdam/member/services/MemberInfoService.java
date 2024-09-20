@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +28,8 @@ import xyz.sangdam.member.repositories.StudentRepository;
 
 import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 @RequiredArgsConstructor
@@ -167,6 +170,26 @@ public class MemberInfoService implements UserDetailsService {
          */
     }
 
+    public List<Employee> getProfessors(String key) {
+        if (!StringUtils.hasText(key)) {
+            return Collections.EMPTY_LIST;
+        }
+
+        BooleanBuilder builder = new BooleanBuilder();
+        QEmployee employee = QEmployee.employee;
+        builder.and(employee.userType.eq(UserType.PROFESSOR));
+        builder.and(employee.userName.concat(employee.deptNm).contains(key.trim()));
+
+        List<Employee> items = (List<Employee>)employeeRepository.findAll(builder, Sort.by(asc("userName")));
+
+        return items;
+    }
+
+    /**
+     * 랜덤하게 상담사 배치하기
+     *
+     * @return
+     */
     public Employee getCounselor() {
         BooleanBuilder builder = new BooleanBuilder();
         QEmployee employee = QEmployee.employee;
@@ -178,7 +201,6 @@ public class MemberInfoService implements UserDetailsService {
             Collections.shuffle(employees);
             return employees.get(0);
         }
-
 
         return null;
     }
