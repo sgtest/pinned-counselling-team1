@@ -1,5 +1,10 @@
 'use client';
-import React, { useLayoutEffect, useCallback, useState, useEffect } from 'react';
+import React, {
+  useLayoutEffect,
+  useCallback,
+  useState,
+  useEffect,
+} from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { getCommonActions } from '@/commons/contexts/CommonContext';
@@ -30,9 +35,9 @@ const JoinContainer = () => {
   }, [t, setMainTitle]);
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       try {
-        const professors = getProfessors(skey);
+        const professors = await getProfessors(skey);
         setProfessors(professors);
       } catch (err) {
         console.error(err);
@@ -124,7 +129,13 @@ const JoinContainer = () => {
   );
 
   const onChange = useCallback((e) => {
-    setForm((form) => ({ ...form, [e.target.name]: e.target.value }));
+    const name = e.target.name;
+    const value = e.target.value;
+    if (name === 'skey') {
+      setSkey(value);
+    } else {
+      setForm((form) => ({ ...form, [name]: value }));
+    }
   }, []);
 
   const onToggle = useCallback((name, value) => {
@@ -139,6 +150,8 @@ const JoinContainer = () => {
         onChange={onChange}
         onToggle={onToggle}
         errors={errors}
+        skey={skey}
+        professors={professors}
       />
     </StyledWrapper>
   );
