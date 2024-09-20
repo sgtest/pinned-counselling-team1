@@ -158,6 +158,7 @@ public class MemberController {
 
     @Operation(summary = "교수목록 키워드 검색")
     @GetMapping("/professors")
+    @PreAuthorize("permitAll()")
     public JSONData professors(@RequestParam(name="skey", required = false) String skey) {
         List<Employee> items = memberInfoService.getProfessors(skey);
 
