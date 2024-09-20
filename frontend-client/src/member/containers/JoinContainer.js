@@ -1,11 +1,12 @@
 'use client';
-import React, { useLayoutEffect, useCallback, useState } from 'react';
+import React, { useLayoutEffect, useCallback, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { getCommonActions } from '@/commons/contexts/CommonContext';
 import JoinForm from '../components/JoinForm';
 import { StyledWrapper } from '@/commons/components/layouts/StyledWrapper';
 import { apiJoin } from '../apis/apiJoin';
+import { getProfessors } from '../apis/apiInfo';
 
 const initalForm = {
   userType: 'STUDENT',
@@ -20,9 +21,24 @@ const JoinContainer = () => {
   const router = useRouter();
   const [form, setForm] = useState(initalForm);
   const [errors, setErrors] = useState({});
+
+  const [professors, setProfessors] = useState([]);
+  const [skey, setSkey] = useState('');
+
   useLayoutEffect(() => {
     setMainTitle(t('회원가입'));
   }, [t, setMainTitle]);
+
+  useEffect(() => {
+    (async() => {
+      try {
+        const professors = getProfessors(skey);
+        setProfessors(professors);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [skey]);
 
   const onSubmit = useCallback(
     (e) => {
