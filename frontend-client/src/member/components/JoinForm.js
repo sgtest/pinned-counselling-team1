@@ -12,7 +12,15 @@ import userStatus from '../constants/userStatus';
 
 const FormBox = styled.form``;
 
-const JoinForm = ({ form, errors, onSubmit, onChange, onToggle }) => {
+const JoinForm = ({
+  form,
+  errors,
+  onSubmit,
+  onChange,
+  onToggle,
+  skey,
+  professors,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -278,10 +286,21 @@ const JoinForm = ({ form, errors, onSubmit, onChange, onToggle }) => {
             <dd>
               <StyledInput
                 type="text"
-                name="professor"
-                value={form?.professor ?? ''}
+                name="skey"
+                value={skey}
                 onChange={onChange}
               />
+              <select
+                name="professor"
+                value={form?.professor}
+                onChange={onChange}
+              >
+                {professors && professors.length > 0 ? (
+                  professors.map((professor) => <></>)
+                ) : (
+                  <option value="">{t('교수를_선택하세요')}</option>
+                )}
+              </select>
               <StyledMessage variant="danger">
                 {errors?.professor}
               </StyledMessage>
