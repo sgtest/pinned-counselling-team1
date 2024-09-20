@@ -27,6 +27,14 @@ const GroupUpdateContainer = ({ params }) => {
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
+
+    // 유효성 검사 
+
+
+    // 처리 
+
+    // 후속 처리 
+
   }, []);
 
   return (

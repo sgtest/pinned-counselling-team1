@@ -44,7 +44,6 @@ const SubMenus = () => {
 };
 
 function getSubMenus(menuCode) {
-  console.log('menuCode', menuCode);
   switch (menuCode) {
     case 'member': // 회원 관리
       return [{ code: 'list', name: '회원 목록', url: '/member/list' }];
