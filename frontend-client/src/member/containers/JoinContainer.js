@@ -39,6 +39,9 @@ const JoinContainer = () => {
       try {
         const professors = await getProfessors(skey);
         setProfessors(professors);
+        if (professors && professors.length > 0) {
+          setForm((form) => ({ ...form, professor: professors[0].seq }));
+        }
       } catch (err) {
         console.error(err);
       }
