@@ -1,3 +1,10 @@
+import MainContainer from '../main/containers/MainContainer';
+
 export default function Home() {
-  return <h1>테스트</h1>;
-}
+  return (
+    <>
+      <h1>메인페이지</h1>
+      <MainContainer />
+    </>
+  )
+};

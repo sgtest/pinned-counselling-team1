@@ -289,7 +289,6 @@ const JoinForm = ({
                 name="skey"
                 value={skey}
                 onChange={onChange}
-                placeholder={t('찾으실_교수님의_키워드를_입력하세요.')}
               />
               <select
                 name="professor"

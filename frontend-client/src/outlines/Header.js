@@ -86,6 +86,7 @@ const Header = () => {
                   {userInfo?.userName}({userInfo?.email}){t('님_로그인')}
                 </span>
                 <span onClick={onLogout}>{t('로그아웃')}</span>
+                <a href='/mypage'>{t('마이페이지')}</a>
               </>
             ) : (
               <>

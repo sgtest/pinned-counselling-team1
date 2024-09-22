@@ -29,9 +29,9 @@ const Submenus = () => {
   return (
     <SubMenuBox>
       <a href="/mypage/info">{t('회원정보수정')}</a>
-      <a href="/mypage/board">{t('내가_작성한_게시글')}</a>
-      {isStudent && <a href='/mypage/test'></a>}
-      {isProfessor && <a href='/mypage/mystudent'></a>}
+      <a href="/mypage/board">{t('내가 작성한 게시글')}</a>
+      {isStudent && <a href='/mypage/test'>{t('온라인 심리검사')}</a>}
+      {isProfessor && <a href='/mypage/mystudent'>{t('담당 학생')}</a>}
     </SubMenuBox>
   );
 };
