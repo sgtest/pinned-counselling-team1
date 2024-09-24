@@ -7,3 +7,6 @@ export default function answer(form) {
 
 export const getAnswer = (resultId) =>
   requestData(`/psychologicalTest/answer/${resultId}`);
+
+export const getAnswers = (page) =>
+  requestData(`/psychologicalTest/answers?page=${page ?? 1}`);

@@ -12,14 +12,13 @@ const AnswerContainer = ({ params }) => {
       try {
         const data = await getAnswer(resultId);
         setData(data);
-        console.log('data', data);
       } catch (err) {
         console.error(err);
       }
     })();
   }, [resultId]);
 
-  return <AnswerView />;
+  return data && <AnswerView data={data} />;
 };
 
 export default React.memo(AnswerContainer);
