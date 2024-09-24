@@ -1,5 +1,7 @@
-const ResultPage = () => {
-  return <h1>테스트 결과 페이지</h1>;
+import AnswerContainer from '@/psychologicalTest/containers/AnswerContainer';
+
+const ResultPage = ({ params }) => {
+  return <AnswerContainer params={params} />;
 };
 
 export default ResultPage;

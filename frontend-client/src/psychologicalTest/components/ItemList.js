@@ -5,7 +5,6 @@ import { Facebook } from 'react-content-loader';
 const MyFacebookLoader = () => <Facebook />;
 
 const ItemList = ({ items, loading }) => {
-  console.log(items);
   return loading ? (
     <ul>
       {items.map((item, i) => (
