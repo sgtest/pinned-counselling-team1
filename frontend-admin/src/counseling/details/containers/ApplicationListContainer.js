@@ -36,9 +36,9 @@ const ApplicationListContainer = ({ params, searchParams }) => {
   const [items, setItems] = useState([
     {
       rNo: 1,
-      status: 'APPLY',
+      status: 'CANCEL',
       counselingType: 'PERSONAL',
-      category: 'PROFESSOR',
+      category: 'EMPLOYMENT',
       counselingName: '상담명',
       counselorName: '교수명',
       counselorEmail: 'user99@test.org',

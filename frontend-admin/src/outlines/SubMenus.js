@@ -44,7 +44,6 @@ const SubMenus = () => {
 };
 
 function getSubMenus(menuCode) {
-  console.log('menuCode', menuCode);
   switch (menuCode) {
     case 'member': // 회원 관리
       return [{ code: 'list', name: '회원 목록', url: '/member/list' }];
@@ -57,14 +56,22 @@ function getSubMenus(menuCode) {
 
     case 'counseling': // 집단상담 관리
       return [
-        { code: 'group', name: '집단 상담 프로그램 목록', url: '/counseling/group' },
-        { code: 'register', name: '집단 상담 프로그램 등록', url: '/counseling/group/register' },
+        {
+          code: 'group',
+          name: '집단 상담 프로그램 목록',
+          url: '/counseling/group',
+        },
+        {
+          code: 'register',
+          name: '집단 상담 프로그램 등록',
+          url: '/counseling/group/register',
+        },
       ];
 
     case 'application': // 상담이력 관리
-    return [
-      { code: 'details', name: '상담 접수 목록', url: '/counseling/details' },
-    ];    
+      return [
+        { code: 'details', name: '상담 접수 목록', url: '/counseling/details' },
+      ];
 
     default:
       return [];

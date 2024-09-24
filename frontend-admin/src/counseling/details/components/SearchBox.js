@@ -2,7 +2,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { StyledInput } from '@/commons/components/inputs/StyledInput';
 import { StyledButton } from '@/commons/components/buttons/StyledButton';
 import { IoMdRadioButtonOn, IoMdRadioButtonOff } from 'react-icons/io';
 
@@ -15,13 +14,31 @@ const FormBox = styled.form`
   margin: 20px auto;
   border-radius: 8px;
 
+  dt {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
   select,
   input {
     width: 100%;
     padding: 10px;
     border: 1px solid #dcdcdc;
-    border-radius: 4px;
+    border-radius: 3px;
   }
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const StyledInput = styled.input`
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  border-radius: 3px;
+  width: 50%;
 `;
 
 const SearchBox = ({ search, onChange, onSubmit, onToggle }) => {
@@ -32,39 +49,45 @@ const SearchBox = ({ search, onChange, onSubmit, onToggle }) => {
       <dl>
         <dt>{t('상담일')}</dt>
         <dd>
-          <StyledInput
-            type="date"
-            name="sDate"
-            value={search?.sDate ?? ''}
-            onChange={onChange}
-            placeholder={t('시작일')}
-          />
-          <StyledInput
-            type="date"
-            name="eDate"
-            value={search?.eDate ?? ''}
-            onChange={onChange}
-            placeholder={t('종료일')}
-          />
+          <InputWrapper>
+            <StyledInput
+              type="date"
+              name="sDate"
+              value={search?.sDate ?? ''}
+              onChange={onChange}
+              placeholder={t('시작일')}
+            />
+            ~
+            <StyledInput
+              type="date"
+              name="eDate"
+              value={search?.eDate ?? ''}
+              onChange={onChange}
+              placeholder={t('종료일')}
+            />
+          </InputWrapper>
         </dd>
       </dl>
       <dl>
         <dt>{t('상담시간')}</dt>
         <dd>
-          <StyledInput
-            type="time"
-            name="sTime"
-            value={search?.sTime ?? ''}
-            onChange={onChange}
-            placeholder={t('시작시간')}
-          />
-          <StyledInput
-            type="time"
-            name="eTime"
-            value={search?.eTime ?? ''}
-            onChange={onChange}
-            placeholder={t('종료시간')}
-          />
+          <InputWrapper>
+            <StyledInput
+              type="time"
+              name="sTime"
+              value={search?.sTime ?? ''}
+              onChange={onChange}
+              placeholder={t('시작시간')}
+            />
+            ~
+            <StyledInput
+              type="time"
+              name="eTime"
+              value={search?.eTime ?? ''}
+              onChange={onChange}
+              placeholder={t('종료시간')}
+            />
+          </InputWrapper>
         </dd>
       </dl>
       <dl>
@@ -94,7 +117,7 @@ const SearchBox = ({ search, onChange, onSubmit, onToggle }) => {
         </dd>
       </dl>
       <dl>
-        <dd>{t('진행상태')}</dd>
+        <dt>{t('진행상태')}</dt>
         <dd>
           <span onClick={() => onToggle('status', 'APPLY')}>
             {search?.status === 'APPLY' ? (
@@ -105,7 +128,7 @@ const SearchBox = ({ search, onChange, onSubmit, onToggle }) => {
             {t('예약접수')}
           </span>
           <span onClick={() => onToggle('status', 'CANCEL')}>
-            {search?.gender === 'CANCEL' ? (
+            {search?.status === 'CANCEL' ? (
               <IoMdRadioButtonOn />
             ) : (
               <IoMdRadioButtonOff />
@@ -113,7 +136,7 @@ const SearchBox = ({ search, onChange, onSubmit, onToggle }) => {
             {t('예약취소')}
           </span>
           <span onClick={() => onToggle('status', 'DONE')}>
-            {search?.gender === 'DONE' ? (
+            {search?.status === 'DONE' ? (
               <IoMdRadioButtonOn />
             ) : (
               <IoMdRadioButtonOff />

@@ -4,13 +4,17 @@ import cookies from 'react-cookies';
 import { useTranslation } from 'react-i18next';
 import { getCommonStates } from '../commons/contexts/CommonContext';
 import { getUserContext } from '@/commons/contexts/UserInfoContext';
+
 const HeaderBox = styled.header`
   .site-top {
     background: ${({ theme }) => theme.colors.white};
-    height: 65px;
+    height: 80px;
 
     div {
-      text-align: right;
+      display: flex;
+      align-items: center; 
+      justify-content: space-between; 
+      padding: 0 20px;
 
       a {
         display: inline-block;
@@ -30,9 +34,10 @@ const Header = () => {
   const { t } = useTranslation();
   const { showHeader } = getCommonStates();
   const {
-    states: { isLogin, userInfo, isAdmin },
+    states: { isLogin, userInfo },
     actions: { setIsLogin, setIsAdmin, setUserInfo },
   } = getUserContext();
+
   const onLogout = useCallback(() => {
     setIsLogin(false);
     setIsAdmin(false);
@@ -45,9 +50,9 @@ const Header = () => {
       <HeaderBox>
         <section className="site-top">
           <div className="layout-width">
+          
             {isLogin ? (
               <>
-                {/* 로그인 상태 */}
                 <span>
                   {userInfo?.userName}({userInfo?.email}){t('님_로그인')}
                 </span>
