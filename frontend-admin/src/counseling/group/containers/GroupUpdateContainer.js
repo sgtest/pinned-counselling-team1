@@ -19,10 +19,6 @@ const GroupUpdateContainer = ({ params }) => {
     setSubMenuCode(cNo ? 'update' : 'register');
   }, [setMenuCode, setSubMenuCode, cNo]);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const [form, setForm] = useState({
     gid: '' + Date.now(),
   });
