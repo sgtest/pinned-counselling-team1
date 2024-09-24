@@ -1,7 +1,7 @@
 import apiRequest from '../../commons/libs/apiRequest';
 import requestData from '../../commons/libs/requestData';
 
-export const write = (form) => saveProcess(`/comment/write`, 'POST', form);
+export const regist = (form) => saveProcess(`/comment/regist`, 'POST', form);
 
 export const update = (seq, form) =>
   saveProcess(`/comment/update`, 'PATCH', form);

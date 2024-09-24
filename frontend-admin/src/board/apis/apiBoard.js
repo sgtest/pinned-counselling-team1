@@ -1,8 +1,8 @@
 import apiRequest from '../../commons/libs/apiRequest';
 import requestData from '../../commons/libs/requestData';
 
-export const write = (bid, form) =>
-  saveProcess(`/board/write/${bid}`, 'POST', form);
+export const regist = (bid, form) =>
+  saveProcess(`/board/regist/${bid}`, 'POST', form);
 
 export const update = (seq, form) =>
   saveProcess(`/board/update/${seq}`, 'PATCH', form);

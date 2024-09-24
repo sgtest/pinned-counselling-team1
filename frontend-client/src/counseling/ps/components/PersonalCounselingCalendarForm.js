@@ -129,7 +129,7 @@ const PersonalCounselingCalendarForm = ({
 
       <StyledCalendar
         onChange={onCalendarClick}
-        value={selectedDate} // 신청 선택 날짜 표시
+        value={selectedDate} // 선택된 날짜 표시
         minDate={startDate}
         maxDate={endDate}
         tileDisabled={({ date }) => {

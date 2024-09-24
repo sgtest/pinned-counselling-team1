@@ -3,7 +3,7 @@ import InfoContainer from '@/mypage/containers/InfoContainer';
 import MemberOnlyContainer from '@/member/containers/MemberOnlyContainer';
 import TestContainer from '@/mypage/containers/TestContainer';
 
-const MypageModePage = ({ params }) => {
+const MypageModePage = ({ params, searchParams }) => {
   const { mode } = params;
 
   let Container = null;
@@ -11,7 +11,7 @@ const MypageModePage = ({ params }) => {
     case 'board':
       Container = BoardContainer;
       break;
-    case 'test': 
+    case 'test':
       Container = TestContainer;
       break;
     default:
@@ -20,7 +20,7 @@ const MypageModePage = ({ params }) => {
 
   return (
     <MemberOnlyContainer>
-      <Container />
+      <Container searchParams={searchParams} />
     </MemberOnlyContainer>
   );
 };

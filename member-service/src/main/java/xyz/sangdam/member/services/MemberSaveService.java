@@ -1,13 +1,10 @@
 package xyz.sangdam.member.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.MemberUtil;
 import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
@@ -64,7 +61,7 @@ public class MemberSaveService {
         member.setUserType(userType);
         member.setZonecode(form.getZonecode());
         member.setAddress(form.getAddress());
-        member.setAddresssub(form.getAddressSub());
+        member.setAddresssub(form.getAddresssub());
         member.setGid(form.getGid());
         member.setStatus(form.getStatus() == null ? Status.EMPLOYED : Status.valueOf(form.getStatus()));
         member.setGender(form.getGender() == null ? Gender.FEMALE : Gender.valueOf(form.getGender()));
@@ -114,7 +111,7 @@ public class MemberSaveService {
         member.setMobile(mobile);
         member.setZonecode(form.getZonecode());
         member.setAddress(form.getAddress());
-        member.setAddresssub(form.getAddressSub());
+        member.setAddresssub(form.getAddresssub());
         member.setBirth(form.getBirth());
 
         String password = form.getPassword();
@@ -151,9 +148,6 @@ public class MemberSaveService {
         } else if (member instanceof Student student) {
             studentRepository.saveAndFlush(student);
         }
-
-        MemberInfo memberInfo = (MemberInfo) infoService.loadUserByUsername(email);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         return member;
     }

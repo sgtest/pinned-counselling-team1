@@ -136,11 +136,11 @@ const JoinForm = ({
         <dd>
           <StyledInput
             type="text"
-            name="addressSub"
-            value={form?.addressSub ?? ''}
+            name="addresssub"
+            value={form?.addresssub ?? ''}
             onChange={onChange}
           />
-          <StyledMessage variant="danger">{errors?.addressSub}</StyledMessage>
+          <StyledMessage variant="danger">{errors?.addresssub}</StyledMessage>
         </dd>
       </dl>
       <dl>

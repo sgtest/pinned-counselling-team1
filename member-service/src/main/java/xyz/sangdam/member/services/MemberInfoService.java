@@ -170,17 +170,23 @@ public class MemberInfoService implements UserDetailsService {
          */
     }
 
+    /**
+     * 지도 교수 배정 api
+     * 검색어가 들어오면 지도 교수 배정
+     *
+     * @return
+     */
     public List<Employee> getProfessors(String key) {
         if (!StringUtils.hasText(key)) {
-            return Collections.EMPTY_LIST;
+            return Collections.EMPTY_LIST; // 해당 키워드 검색해서 매칭이 되면 검색해서 지도교수 학과명이 나오는 것으로
         }
 
         BooleanBuilder builder = new BooleanBuilder();
         QEmployee employee = QEmployee.employee;
         builder.and(employee.userType.eq(UserType.PROFESSOR));
-        builder.and(employee.userName.concat(employee.deptNm).contains(key.trim()));
+        builder.and(employee.userName.concat(employee.deptNm).contains(key.trim())); // 학과외에 필요한 거 있으면 여기 추가하면 됨
 
-        List<Employee> items = (List<Employee>)employeeRepository.findAll(builder, Sort.by(asc("userName")));
+        List<Employee> items = (List<Employee>) employeeRepository.findAll(builder, Sort.by(asc("userName"))); // 정렬순서는 이름순
 
         return items;
     }

@@ -7,13 +7,17 @@ const colors = {
   border: '#cdced2',
   danger: '#ed1c24',
   dangerDark: '#a50d12',
-  gray: '#6b6b6b',
+  gray: '#c1c1c1',
   black: '#000000',
   white: '#ffffff',
   text: '#000000',
 
   blue: '#0069b4',
   green: '#005d4f',
+
+  beige: '#faebd7',
+  pastel_blue: '#aeeeee',
+  lightDarkMint: '#b2e0d4',
 };
 
 export default colors;
