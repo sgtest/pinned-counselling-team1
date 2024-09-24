@@ -1,21 +1,28 @@
 'use client';
 import React, { useEffect, useState, useCallback } from 'react';
+import { produce } from 'immer';
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/navigation';
 import { getTest } from '../apis/apiInfo';
+import answer from '../apis/apiAnswer';
 import TestForm from '../components/TestForm';
 
 const TestContainer = ({ params }) => {
   const { testType } = params;
   const [items, setItems] = useState([]);
   const [form, setForm] = useState({
-    answers: [],
+    testType,
+    answers: {},
   });
   const [errors, setErrors] = useState({});
+
+  const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
       try {
         const items = await getTest(testType);
-        console.log(items);
         setItems(items);
       } catch (err) {
         console.error(err);
@@ -23,18 +30,56 @@ const TestContainer = ({ params }) => {
     })();
   }, [testType]);
 
-  const onChange = useCallback((e) => {}, []);
-
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
+  const onClick = useCallback((questionId, score) => {
+    setForm(
+      produce((draft) => {
+        draft.answers[questionId] = score;
+      }),
+    );
   }, []);
+
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      /* 유효성 검사 */
+      let hasErrors = false;
+      setErrors({});
+      const { answers } = form;
+      const answered = Object.values(answers).length;
+      if (answered < items.length) {
+        setErrors({ global: t('모든_문항에_답변하세요.') });
+        hasErrors = true;
+      }
+
+      if (hasErrors) {
+        // 검증 실패시 처리 X
+        return;
+      }
+
+      // 설문지 저장 처리
+      (async () => {
+        try {
+          const res = await answer(form);
+          router.replace(`/psychologicalTest/answer/${res.resultId}`);
+        } catch (err) {
+          console.error(err);
+          const message = err.message;
+          setErrors(
+            typeof message === 'string' ? { global: message } : message,
+          );
+        }
+      })();
+    },
+    [form, items, t],
+  );
 
   return (
     <TestForm
       items={items}
       form={form}
       errors={errors}
-      onChange={onChange}
+      onClick={onClick}
       onSubmit={onSubmit}
     />
   );
